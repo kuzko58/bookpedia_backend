@@ -30,13 +30,16 @@ scalar DateTime
 
 type Query {
   getAllUsers: [User!]!
-  getAllBooks: [String!]!
+  getOneBook(id: String!): Book!
+  getAllBooks: [Book!]!
 }
 
 type Mutation {
   createUser(createUserDto: CreateUserDto!): Auth!
   localLogin(localLoginDto: LocalLoginDto!): Auth!
   createBook(createBookDto: CreateBookDto!): Book!
+  updateBook(updateBookDto: UpdateBookDto!): Book!
+  deleteBook(deleteBookDto: DeleteBookDto!): Book!
 }
 
 input CreateUserDto {
@@ -54,4 +57,15 @@ input CreateBookDto {
   title: String!
   genre: String!
   description: String!
+}
+
+input UpdateBookDto {
+  title: String!
+  genre: String!
+  description: String!
+  id: String!
+}
+
+input DeleteBookDto {
+  id: String!
 }

@@ -3,7 +3,12 @@ import { Resolver, Query, Args, Mutation } from '@nestjs/graphql';
 import { AuthUser } from 'src/auth/decorators/auth-user.decorator';
 import { JwtAuthGuard } from 'src/auth/gaurds/jwt-auth.gaurd';
 import { IAuthUser } from 'src/auth/types/auth.type';
-import { CreateBookDto } from '../dto/book.dto';
+import {
+  CreateBookDto,
+  DeleteBookDto,
+  GetOneBookDto,
+  UpdateBookDto,
+} from '../dto/book.dto';
 import { Book } from '../schema/book.schema';
 import { BookService } from '../service/book.service';
 
@@ -20,7 +25,28 @@ export class BookResolver {
     return await this.bookService.createBook(createBookDto, user);
   }
 
-  @Query(() => [String])
+  @Mutation(() => Book)
+  async updateBook(
+    @Args('updateBookDto') updateBookDto: UpdateBookDto,
+    @AuthUser() user: IAuthUser,
+  ): Promise<Book> {
+    return await this.bookService.updateBook(updateBookDto, user);
+  }
+
+  @Mutation(() => Book)
+  async deleteBook(
+    @Args('deleteBookDto') deleteBookDto: DeleteBookDto,
+    @AuthUser() user: IAuthUser,
+  ): Promise<Book> {
+    return await this.bookService.deleteBook(deleteBookDto, user);
+  }
+
+  @Query(() => Book)
+  async getOneBook(@Args() getOneBookDto: GetOneBookDto): Promise<Book> {
+    return await this.bookService.getOneBook(getOneBookDto);
+  }
+
+  @Query(() => [Book])
   async getAllBooks(): Promise<Book[]> {
     return await this.bookService.getAllBooks();
   }
