@@ -6,6 +6,7 @@ import { IAuthUser } from 'src/auth/types/auth.type';
 import {
   CreateBookDto,
   DeleteBookDto,
+  GetAuthorBooksDto,
   GetOneBookDto,
   UpdateBookDto,
 } from '../dto/book.dto';
@@ -44,6 +45,13 @@ export class BookResolver {
   @Query(() => Book)
   async getOneBook(@Args() getOneBookDto: GetOneBookDto): Promise<Book> {
     return await this.bookService.getOneBook(getOneBookDto);
+  }
+
+  @Query(() => [Book])
+  async getAllBooksByAuthor(
+    @Args() getAuthorBooksDto: GetAuthorBooksDto,
+  ): Promise<Book[]> {
+    return await this.bookService.getAllBooksByAuthor(getAuthorBooksDto);
   }
 
   @Query(() => [Book])

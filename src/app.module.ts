@@ -8,6 +8,7 @@ import { join } from 'path';
 import { UserModule } from './users/user.module';
 import { AuthModule } from './auth/auth.module';
 import { BookModule } from './books/book.module';
+import { StaticCollectionModule } from './staticCollection/staticCollection.module';
 import { APP_FILTER } from '@nestjs/core';
 import { HttpExceptionFilter } from './globals/filters/http.filter';
 import { BaseExceptionFilter } from './globals/filters/base.filter';
@@ -26,6 +27,7 @@ import { BaseExceptionFilter } from './globals/filters/base.filter';
     UserModule,
     AuthModule,
     BookModule,
+    StaticCollectionModule,
   ],
   controllers: [],
   providers: [
