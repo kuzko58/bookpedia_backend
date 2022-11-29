@@ -5,6 +5,7 @@ import { Book, BookDocument } from '../schema/book.schema';
 import {
   CreateBookDto,
   DeleteBookDto,
+  GetAuthorBooksDto,
   GetOneBookDto,
   UpdateBookDto,
 } from '../dto/book.dto';
@@ -68,7 +69,21 @@ export class BookService {
     if (!book) {
       throw new UnauthorizedException('Book not found');
     }
-    return book;
+    return await book.populate({ path: 'author', select: 'id name' });
+  }
+
+  async getAllBooksByAuthor(
+    getAuthorBooksDto: GetAuthorBooksDto,
+  ): Promise<Book[]> {
+    const { author } = getAuthorBooksDto;
+    const books = await this.bookModel
+      .find({
+        author,
+      })
+      .populate({ path: 'author', select: 'id name' })
+      .exec();
+
+    return books;
   }
 
   async getAllBooks(): Promise<Book[]> {

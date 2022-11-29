@@ -48,3 +48,10 @@ export class GetOneBookDto {
   @IsNotEmpty()
   id: string;
 }
+
+@ArgsType()
+export class GetAuthorBooksDto {
+  @Field()
+  @IsNotEmpty()
+  author: string;
+}
