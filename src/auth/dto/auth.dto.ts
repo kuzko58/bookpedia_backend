@@ -14,3 +14,14 @@ export class CreateUserDto {
   @IsNotEmpty()
   password: string;
 }
+
+@InputType()
+export class LocalLoginDto {
+  @Field()
+  @IsNotEmpty()
+  @IsEmail()
+  email: string;
+  @Field()
+  @IsNotEmpty()
+  password: string;
+}

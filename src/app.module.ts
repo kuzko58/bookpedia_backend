@@ -6,7 +6,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { join } from 'path';
 
 import { UsersModule } from './users/user.module';
-// import { AuthModule } from './auth/auth.module';
+import { AuthModule } from './auth/auth.module';
 // import { NodesModule } from './nodes/nodes.module';
 // import { CronModule } from './cron/cron.module';
 // import { ScheduleModule } from '@nestjs/schedule';
@@ -26,6 +26,7 @@ import { BaseExceptionFilter } from './globals/filters/base.filter';
       debug: false,
     }),
     UsersModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [

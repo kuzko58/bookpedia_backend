@@ -8,16 +8,27 @@ type User {
   email: String!
 }
 
+type Auth {
+  access_token: String!
+  user: User!
+}
+
 type Query {
   getAllUsers: [User!]!
 }
 
 type Mutation {
-  createUser(createUserDto: CreateUserDto!): User!
+  createUser(createUserDto: CreateUserDto!): Auth!
+  localLogin(localLoginDto: LocalLoginDto!): Auth!
 }
 
 input CreateUserDto {
   name: String!
+  email: String!
+  password: String!
+}
+
+input LocalLoginDto {
   email: String!
   password: String!
 }
