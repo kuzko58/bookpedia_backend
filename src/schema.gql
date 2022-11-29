@@ -3,7 +3,7 @@
 # ------------------------------------------------------
 
 type User {
-  _id: String!
+  _id: ID!
   name: String!
   email: String!
 }
@@ -13,13 +13,30 @@ type Auth {
   user: User!
 }
 
+type Book {
+  _id: ID!
+  title: String!
+  genre: String!
+  description: String!
+  author: User!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
 type Query {
   getAllUsers: [User!]!
+  getAllBooks: [String!]!
 }
 
 type Mutation {
   createUser(createUserDto: CreateUserDto!): Auth!
   localLogin(localLoginDto: LocalLoginDto!): Auth!
+  createBook(createBookDto: CreateBookDto!): Book!
 }
 
 input CreateUserDto {
@@ -31,4 +48,10 @@ input CreateUserDto {
 input LocalLoginDto {
   email: String!
   password: String!
+}
+
+input CreateBookDto {
+  title: String!
+  genre: String!
+  description: String!
 }

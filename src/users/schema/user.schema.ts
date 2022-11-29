@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, Schema as MongooseSchema } from 'mongoose';
-import { Field, ObjectType } from '@nestjs/graphql';
+import { Field, ID, ObjectType } from '@nestjs/graphql';
 import * as bcrypt from 'bcrypt';
 
 export type UserDocument = HydratedDocument<User>;
@@ -8,18 +8,18 @@ export type UserDocument = HydratedDocument<User>;
 @Schema()
 @ObjectType()
 export class User {
-  @Field(() => String)
+  @Field(() => ID)
   _id: MongooseSchema.Types.ObjectId;
 
-  @Prop()
+  @Prop({ required: true })
   @Field()
   name: string;
 
-  @Prop({ unique: true })
+  @Prop({ required: true, unique: true })
   @Field()
   email: string;
 
-  @Prop()
+  @Prop({ required: true })
   password: string;
 
   comparePassword: (password: string) => boolean;
