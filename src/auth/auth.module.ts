@@ -4,17 +4,17 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { AuthService } from './service/auth.service';
 import { AuthResolver } from './resolver/auth.resolver';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from 'src/users/entities/users.entity';
+import { MongooseModule } from '@nestjs/mongoose';
+import { User, UserSchema } from '../users/schema/user.schema';
 import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
-    TypeOrmModule.forFeature([User]),
+    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
     PassportModule,
     JwtModule.register({
-      secret: process.env.JWT_SECRET,
+      secret: process.env.JWT_SECRET || 'mySecret',
       signOptions: { expiresIn: '15m' },
     }),
   ],

@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose, { HydratedDocument, Schema as MongooseSchema } from 'mongoose';
+import { HydratedDocument, Schema as MongooseSchema } from 'mongoose';
 import { Field, ObjectType } from '@nestjs/graphql';
 import * as bcrypt from 'bcrypt';
 
@@ -21,9 +21,17 @@ export class User {
 
   @Prop()
   password: string;
+
+  comparePassword: (password: string) => boolean;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
+
+UserSchema.methods.comparePassword = async function (
+  password: string,
+): Promise<boolean> {
+  return bcrypt.compareSync(password, this.password);
+};
 
 UserSchema.index({ email: 1 });
 

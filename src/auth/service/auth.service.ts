@@ -5,7 +5,6 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { Model } from 'mongoose';
-import * as bcrypt from 'bcrypt';
 import { User, UserDocument } from '../../users/schema/user.schema';
 import { JwtService } from '@nestjs/jwt';
 import { Auth } from '../schema/auth.schema';
@@ -35,7 +34,7 @@ export class AuthService {
     }
   }
 
-  public async loginLocal(localLoginDto: LocalLoginDto): Promise<Auth> {
+  public async localLogin(localLoginDto: LocalLoginDto): Promise<Auth> {
     const user = await this.userModel.findOne({
       email: localLoginDto.email,
     });
@@ -44,10 +43,7 @@ export class AuthService {
       throw new NotFoundException('No user was found');
     }
 
-    const isValidPassword = bcrypt.compareSync(
-      localLoginDto.password,
-      user.password,
-    );
+    const isValidPassword = user.comparePassword(localLoginDto.password);
 
     if (!isValidPassword) {
       throw new UnauthorizedException('Invalid credentials');
